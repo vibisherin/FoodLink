@@ -1,8 +1,8 @@
-import foodRoutes from "./routes/foodroutes.js";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import db from "./config/db.js";
+import foodRoutes from "./routes/foodroutes.js";
 
 dotenv.config();
 
@@ -10,7 +10,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use("/api/food", foodroutes);
+app.use("/api/food", foodRoutes);
 
 // Test backend
 app.get("/", (req, res) => {
