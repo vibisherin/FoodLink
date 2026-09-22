@@ -10,7 +10,6 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use("/api/food", foodRoutes);
 
 // Test backend
 app.get("/", (req, res) => {
@@ -19,7 +18,7 @@ app.get("/", (req, res) => {
     });
 });
 
-// Test MySQL connection
+// Test database
 app.get("/api/test-db", async (req, res) => {
     try {
         const [rows] = await db.query("SELECT 1 AS result");
@@ -41,8 +40,12 @@ app.get("/api/test-db", async (req, res) => {
     }
 });
 
+// Food API
+app.use("/api/food", foodRoutes);
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
     console.log(`FoodLink Backend running on port ${PORT}`);
 });
+```
