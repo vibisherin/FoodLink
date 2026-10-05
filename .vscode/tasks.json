@@ -1,0 +1,24 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "FoodLink: start frontend + backend",
+      "type": "shell",
+      "command": "npm run dev:all",
+      "problemMatcher": [],
+      "group": { "kind": "build", "isDefault": true }
+    },
+    {
+      "label": "FoodLink: reset + seed database",
+      "type": "shell",
+      "command": "npm run db:reset",
+      "problemMatcher": []
+    },
+    {
+      "label": "FoodLink: run login checks",
+      "type": "shell",
+      "command": "npm --prefix backend run test:logins",
+      "problemMatcher": []
+    }
+  ]
+}

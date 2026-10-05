@@ -1,73 +1,55 @@
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import FoodCard from "../components/FoodCard";
+import { useAuth } from "../context/AuthContext";
+import { useI18n } from "../i18n/I18nContext";
 
 export default function Home() {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const { t } = useI18n();
+  const home = user ? (user.role === "admin" ? "/admin" : "/dashboard") : "/register";
 
   return (
     <div className="page">
       <Navbar />
 
-      {/* Hero Section */}
       <section className="hero">
-        <h1>Reduce Food Waste. Feed Communities.</h1>
-        <p className="hero-subtitle">
-          FoodLink uses AI-assisted food identification and smart expiry
-          monitoring to help restaurants donate surplus food to nearby NGOs
-          before it goes to waste.
-        </p>
+        <h1>{t("home.title")}</h1>
+        <p className="hero-subtitle">{t("home.subtitle")}</p>
         <div className="hero-buttons">
-          <button className="btn-primary" onClick={() => navigate("/dashboard")}>
-            Get Started
+          <button className="btn-primary" onClick={() => navigate(home)}>
+            {user ? t("home.openDashboard") : t("home.getStarted")}
           </button>
-          <button className="btn-secondary" onClick={() => navigate("/scanner")}>
-            Scan Food
-          </button>
+          {(!user || user.role === "restaurant") && (
+            <button className="btn-secondary" onClick={() => navigate(user ? "/scanner" : "/login")}>{t("home.scan")}</button>
+          )}
         </div>
       </section>
 
-      {/* Process Flow */}
       <section className="process-section">
-        <h2>How It Works</h2>
+        <h2>{t("home.how")}</h2>
         <div className="process-flow">
-          <div className="process-step">Restaurant</div>
-          <div className="process-arrow">↓</div>
-          <div className="process-step">Food Scanner</div>
-          <div className="process-arrow">↓</div>
-          <div className="process-step">Expiry Monitoring</div>
-          <div className="process-arrow">↓</div>
-          <div className="process-step">Nearby NGO</div>
-          <div className="process-arrow">↓</div>
-          <div className="process-step">Food Donation</div>
+          {[1, 2, 3, 4, 5, 6].map((n, i) => (
+            <div key={n} className="process-item">
+              {i > 0 && <div className="process-arrow">↓</div>}
+              <div className={`process-step ${n === 4 ? "highlight" : ""}`}>{t(`home.step${n}`)}</div>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* Feature Cards */}
       <section className="features-section">
-        <h2>Why FoodLink?</h2>
+        <h2>{t("home.why")}</h2>
         <div className="features-grid">
-          <FoodCard
-            icon="📷"
-            title="AI Food Scanner"
-            description="Upload food images and let AI identify ingredients and estimate freshness instantly."
-          />
-          <FoodCard
-            icon="⏱️"
-            title="Smart Expiry Tracking"
-            description="Automatically monitor expiry times so surplus food is used before it's too late."
-          />
-          <FoodCard
-            icon="🤝"
-            title="NGO Donation"
-            description="Connect with nearby NGOs to donate surplus food quickly and easily."
-          />
+          <FoodCard icon="🧭" title={t("home.f1.title")} description={t("home.f1.desc")} />
+          <FoodCard icon="📷" title={t("home.f2.title")} description={t("home.f2.desc")} />
+          <FoodCard icon="⏱️" title={t("home.f3.title")} description={t("home.f3.desc")} />
+          <FoodCard icon="🌐" title={t("home.f4.title")} description={t("home.f4.desc")} />
         </div>
       </section>
 
-      <footer className="footer">
-        <p>© 2026 FoodLink — Reducing Waste, Feeding Communities.</p>
-      </footer>
+      <footer className="footer"><p>{t("home.footer")}</p></footer>
     </div>
   );
 }
