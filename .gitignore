@@ -3,3 +3,7 @@ backend/node_modules/
 .env
 backend/.env
 dist/
+FoodLink/
+
+.env
+backend/.env
